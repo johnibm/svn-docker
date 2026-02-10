@@ -68,7 +68,7 @@ RUN apk add --no-cache apache2 apache2-utils apache2-webdav mod_dav_svn &&\
 	mkdir -p /run/apache2/ &&\
 	mkdir /home/svn/ &&\
 	mkdir /etc/subversion &&\
-	touch /etc/subversion/passwd &&\
+	#touch /etc/subversion/passwd &&\
     wget --no-check-certificate https://github.com/mfreiholz/iF.SVNAdmin/archive/stable-1.6.2.zip &&\
 	unzip stable-1.6.2.zip -d /opt &&\
 	rm stable-1.6.2.zip &&\
