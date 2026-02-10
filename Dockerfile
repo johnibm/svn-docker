@@ -105,7 +105,7 @@ RUN chmod -R 0777 /etc/apache2 &&\
     chown -R svnuser:svngroup /etc/apache2 &&\
 	chmod -R 0777 /var/www &&\
 	chmod -R 0777 /var/log/apache2 &&\
-	chown -R svnuser:svngroup /run/apache2
+	chown -R svnuser:svngroup /run/apache2 &&\
 	chown -R svnuser:svngroup /etc/subversion/passwd
 
 
