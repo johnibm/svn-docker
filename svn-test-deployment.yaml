@@ -1,24 +1,4 @@
 cat <<EOF | oc apply -f -
-apiVersion: v1 
-kind: Pod 
-metadata: 
-  name: svn-test-pod
-  namespace: registry-test
-  labels: 
-    app: svn-test-pod 
-spec: 
-  
-  containers:
-    - name: main
-      image: default-route-openshift-image-registry.apps.panda.cair.cluster.local/registry-test/svn-server
-      # Keep container running
-      command: [ "/bin/sh", "-c", "--" ]
-      args: [ "while true; do sleep 30; done;" ]      
-EOF
-
-
-
-cat <<EOF | oc apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,6 +16,9 @@ spec:
         app: svn-test
     spec:
       securityContext:
+        runAsUser: 1001      # The user ID the container entrypoint will run as
+        runAsGroup: 3001      # The primary group ID for the container process
+        fsGroup: 2000         # The group ID for ownership of mounted volumes
       allowPrivilegeEscalation: false
       containers:
         - name: main
@@ -46,22 +29,3 @@ spec:
       imagePullPolicy: Always
 EOF
 
-
-cat <<EOF | oc apply -f -
-apiVersion: v1 
-kind: Pod 
-metadata: 
-  name: svn-test-pod
-  namespace: demo
-  labels: 
-    app: svn-test-pod 
-spec: 
-  securityContext:
-    allowPrivilegeEscalation: false
-  containers:
-    - name: main
-      image: quay.io/johnibm/svn-server:v1
-      # Keep container running
-      command: [ "/bin/sh", "-c", "--" ]
-      args: [ "while true; do sleep 30; done;" ]      
-EOF
