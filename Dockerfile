@@ -92,6 +92,10 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 
 # Add WebDav configuration
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
+
+# Update Apache config file
+ADD app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
+
 # Fix permissions issue
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
 RUN chmod -R 0777 /etc/apache2 &&\

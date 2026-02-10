@@ -27,6 +27,6 @@ spec:
           # Keep container running
           command: [ "/bin/sh", "-c", "--" ]
           args: [ "while true; do sleep 30; done;" ]
-      imagePullPolicy: Always
+          imagePullPolicy: Always
 EOF
 
