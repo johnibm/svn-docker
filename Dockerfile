@@ -86,6 +86,9 @@ ADD svnadmin/classes/util/global.func.php /opt/svnadmin/classes/util/global.func
 ADD apache/ /etc/services.d/apache/
 ADD subversion/ /etc/services.d/subversion/
 
+# Add subversion passwd
+COPY --chown=svnuser:svngroup /subversion/passwd /etc/subversion/passwd
+
 # Add SVNAuth file
 ADD subversion-access-control /etc/subversion/subversion-access-control
 RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
@@ -96,8 +99,6 @@ ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 # Update Apache config file
 ADD /app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
 
-# Add subversion passwd
-ADD /subversion/passwd /etc/subversion/passwd
 
 # Fix permissions issue
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
@@ -105,8 +106,8 @@ RUN chmod -R 0777 /etc/apache2 &&\
     chown -R svnuser:svngroup /etc/apache2 &&\
 	chmod -R 0777 /var/www &&\
 	chmod -R 0777 /var/log/apache2 &&\
-	chown -R svnuser:svngroup /run/apache2 &&\
-	chown -R svnuser:svngroup /etc/subversion/passwd
+	chown -R svnuser:svngroup /run/apache2
+	
 
 
 
