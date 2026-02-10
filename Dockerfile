@@ -100,7 +100,7 @@ ADD /app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
 RUN chmod -R 0777 /etc/apache2 &&\
     chown -R svnuser:svngroup /etc/apache2 &&\
-	chmod -R 0777 /var/logs
+	chmod -R 0777 /var/www
 
 
 # Set HOME in non /root folder
