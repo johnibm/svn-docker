@@ -32,7 +32,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 # Create a non-root user and group
 # OpenShift usually runs containers with an arbitrary UID,
 # but providing a specific non-root user aids compatibility 
-RUN addgroup -S svngroup && adduser -S svnuser -G svngroup -u 1001
+RUN addgroup -S svngroup -u 3000 && adduser -S svnuser -G svngroup -u 1000
 
 # 2. Set working directory
 WORKDIR /app
@@ -92,7 +92,7 @@ ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 ENV HOME /home/svnuser
 
 # Switch to a non-root user (security best practice)
-USER 1001
+USER svnuser
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690

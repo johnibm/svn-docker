@@ -1,0 +1,67 @@
+cat <<EOF | oc apply -f -
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: svn-test-pod
+  namespace: registry-test
+  labels: 
+    app: svn-test-pod 
+spec: 
+  
+  containers:
+    - name: main
+      image: default-route-openshift-image-registry.apps.panda.cair.cluster.local/registry-test/svn-server
+      # Keep container running
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [ "while true; do sleep 30; done;" ]      
+EOF
+
+
+
+cat <<EOF | oc apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svn-test-deployment
+  labels:
+    app: svn-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svn-test
+  template:
+    metadata:
+      labels:
+        app: svn-test
+    spec:
+      securityContext:
+      allowPrivilegeEscalation: false
+      containers:
+        - name: main
+          image: quay.io/johnibm/svn-server:v1
+          # Keep container running
+          command: [ "/bin/sh", "-c", "--" ]
+          args: [ "while true; do sleep 30; done;" ]
+      imagePullPolicy: Always
+EOF
+
+
+cat <<EOF | oc apply -f -
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: svn-test-pod
+  namespace: demo
+  labels: 
+    app: svn-test-pod 
+spec: 
+  securityContext:
+    allowPrivilegeEscalation: false
+  containers:
+    - name: main
+      image: quay.io/johnibm/svn-server:v1
+      # Keep container running
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [ "while true; do sleep 30; done;" ]      
+EOF
