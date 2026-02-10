@@ -32,7 +32,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 # Create a non-root user and group
 # OpenShift usually runs containers with an arbitrary UID,
 # but providing a specific non-root user aids compatibility 
-RUN addgroup -S svngroup && adduser -S svnuser -G svngroup
+RUN addgroup -S svngroup && adduser -S svnuser -G svngroup -u 1001
 
 # 2. Set working directory
 WORKDIR /app
@@ -88,19 +88,16 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 # Add WebDav configuration
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 
-
 # Set HOME in non /root folder
 ENV HOME /home/svnuser
+
+# Switch to a non-root user (security best practice)
+USER 1001
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690
 
-
-# Switch to a non-root user (security best practice)
-USER svnuser
-
 ENTRYPOINT ["/app/usr/bin/startup.sh"]
-
 
 # Set the default command (e.g., to keep the container running)
 CMD ["sleep", "infinity"] 
