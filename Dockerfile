@@ -80,8 +80,8 @@ ENV HOME /home/svn
 EXPOSE 80 443 3690
 
 # Example of changing ownership using chown (as root)
-RUN adduser svn -H -u 1000
-RUN chown -R svn:svn /app
+RUN adduser svnuser -H -u 1000
+RUN chown -R svnuser:svnuser /app
 
 WORKDIR /app
 
