@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Perform startup tasks here
 echo "Running startup script"
 echo "Apache - run"

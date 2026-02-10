@@ -18,7 +18,7 @@ spec:
     spec:
       securityContext:
         runAsUser: 1001      # The user ID the container entrypoint will run as
-        runAsGroup: 1001      # The primary group ID for the container process
+        runAsGroup: 3001      # The primary group ID for the container process
         fsGroup: 2000         # The group ID for ownership of mounted volumes
       allowPrivilegeEscalation: false
       containers:
@@ -26,7 +26,13 @@ spec:
           image: quay.io/johnibm/svn-server:v1
           # Keep container running
           command: [ "/bin/sh", "-c", "--" ]
-          args: [ "while true; do sleep 30; done;" ]
+          args: |
+                echo "Starting main container";
+                echo "Run Script";
+                /app/usr/bin/startup.sh; 
+                sleep 30; 
+                echo "Startup Script finished. Pod will now stay alive.";
+                sleep infinity;
           imagePullPolicy: Always
 EOF
 

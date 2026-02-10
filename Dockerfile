@@ -113,7 +113,7 @@ ENV HOME /home/svnuser
 USER svnuser
 
 # Expose ports for http and custom protocol access
-EXPOSE 8080 8443 3690
+EXPOSE 8080 3690
 
 ENTRYPOINT ["./usr/bin/startup.sh"]
 
