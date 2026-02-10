@@ -20,7 +20,7 @@ echo "subversion - run"
 # From https://github.com/smebberson/docker-alpine/tree/master/alpine-apache
 
 #exec /usr/bin/svnserve -d --foreground -r /home/svn --listen-port 3690;
-/usr/bin/svnserve -d --foreground -r /home/svn --listen-port 3690;
+/usr/bin/svnserve -d --background -r /home/svn --listen-port 3690;
 
 
 # Run the main container command (CMD)
