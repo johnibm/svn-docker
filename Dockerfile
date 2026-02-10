@@ -32,7 +32,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 # Create a non-root user and group
 # OpenShift usually runs containers with an arbitrary UID,
 # but providing a specific non-root user aids compatibility 
-RUN addgroup -S svngroup -u 3000 && adduser -S svnuser -G svngroup -u 1000
+RUN addgroup -S svngroup -g 3000 && adduser -S svnuser -G svngroup -u 1000
 
 # 2. Set working directory
 WORKDIR /app
