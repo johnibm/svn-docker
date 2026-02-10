@@ -43,6 +43,10 @@ COPY --chown=svnuser:svngroup app /app
 
 # 4. Ensure permissions are correct (executable if needed)
 RUN chmod 775 /app
+RUN chgrp -R 0 /app && \
+    chmod -R g=u /app && \
+    # Ensure the startup script is executable
+    chmod +x /app/usr/bin/startup.sh
 
 # Old entries
 #ENTRYPOINT ["/init"]
