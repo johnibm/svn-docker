@@ -21,15 +21,30 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 
 # Modified to run on OpenShift
 #COPY --chmod=0755 root / 
-COPY --chmod=0755 app /app
-
+#COPY --chmod=0755 app /app
 # Change the group ownership of the directory to root (GID 0) 
 # and grant group read/write/execute permissions (g=u copies owner permissions, which should work in most base images)
-RUN chgrp -R 0 /app && \
-    chmod -R g=u /app && \
+#RUN chgrp -R 0 /app && \
+#    chmod -R g=u /app && \
     # Ensure the startup script is executable
-    chmod +x /app/usr/bin/startup.sh
+#    chmod +x /app/usr/bin/startup.sh
 
+# Create a non-root user and group
+# OpenShift usually runs containers with an arbitrary UID,
+# but providing a specific non-root user aids compatibility 
+RUN addgroup -S svngroup && adduser -S svnuser -G svngroup
+
+# 2. Set working directory
+WORKDIR /app
+
+# 3. Copy application files and set permissions
+# Change ownership to the new non-root user 
+COPY --chown=svnuser:svngroup app /app
+
+# 4. Ensure permissions are correct (executable if needed)
+RUN chmod 775 /app
+
+# Old entries
 #ENTRYPOINT ["/init"]
 #CMD []
 
@@ -73,17 +88,13 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 # Add WebDav configuration
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 
+
 # Set HOME in non /root folder
-ENV HOME /home/svn
+ENV HOME /home/svnuser
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690
 
-# Example of changing ownership using chown (as root)
-RUN adduser svnuser -H -u 1000
-RUN chown -R svnuser:svnuser /app
-
-WORKDIR /app
 
 # Switch to a non-root user (security best practice)
 USER svnuser
