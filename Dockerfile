@@ -19,7 +19,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
     adduser -D -g "" -s /bin/sh -G go-dnsmasq go-dnsmasq && \
     setcap CAP_NET_BIND_SERVICE=+eip /bin/go-dnsmasq
 
-COPY root /
+COPY --chmod=0755 root / 
 
 #ENTRYPOINT ["/init"]
 #CMD []
@@ -69,6 +69,13 @@ ENV HOME /home
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690
+
+# Example of changing ownership using chown (as root)
+#RUN useradd -m svn
+#RUN chown -R svn:svn /app
+
+# Switch to a non-root user (security best practice)
+#USER svn
 
 ENTRYPOINT ["/init"]
 CMD []
