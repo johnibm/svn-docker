@@ -9,7 +9,10 @@ echo "Apache - run"
 # avoid 'already pid is running' error
 rm -f /run/apache2/httpd.pid
 
-exec /usr/sbin/apachectl -DFOREGROUND;
+#fix bug in exec 
+#exec /usr/sbin/apachectl -DFOREGROUND;
+exec /usr/sbin/httpd -DFOREGROUND;
+
 
 echo "subversion - run"
 #!/usr/bin/with-contenv sh

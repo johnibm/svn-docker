@@ -20,7 +20,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
     setcap CAP_NET_BIND_SERVICE=+eip /bin/go-dnsmasq
 
 COPY --chmod=0755 root / 
-COPY --chmod=0777 root /app1
+COPY --chmod=0777 root /app
 RUN chmod +x /usr/bin/startup.sh
 
 #ENTRYPOINT ["/init"]
@@ -79,5 +79,8 @@ EXPOSE 80 443 3690
 # Switch to a non-root user (security best practice)
 #USER svn
 
-ENTRYPOINT ["/init"]
-CMD []
+ENTRYPOINT ["/usr/bin/startup.sh"]
+
+
+# Set the default command (e.g., to keep the container running)
+CMD ["sleep", "infinity"] 
