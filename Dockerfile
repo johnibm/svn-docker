@@ -22,8 +22,13 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 # Modified to run on OpenShift
 #COPY --chmod=0755 root / 
 COPY --chmod=0755 app /app
-RUN chmod +x /app/usr/bin/startup.sh
 
+# Change the group ownership of the directory to root (GID 0) 
+# and grant group read/write/execute permissions (g=u copies owner permissions, which should work in most base images)
+RUN chgrp -R 0 /app && \
+    chmod -R g=u /app && \
+    # Ensure the startup script is executable
+    chmod +x /app/usr/bin/startup.sh
 
 #ENTRYPOINT ["/init"]
 #CMD []
