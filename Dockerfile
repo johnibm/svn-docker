@@ -75,11 +75,13 @@ ENV HOME /home/svn
 EXPOSE 80 443 3690
 
 # Example of changing ownership using chown (as root)
-RUN adduser -H svn
+RUN adduser -H svn -u 1000
 RUN chown -R svn:svn /app
 
+WORKDIR /app
+
 # Switch to a non-root user (security best practice)
-USER svn
+USER 1000
 
 ENTRYPOINT ["/app/usr/bin/startup.sh"]
 
