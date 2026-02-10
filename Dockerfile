@@ -19,9 +19,11 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
     adduser -D -g "" -s /bin/sh -G go-dnsmasq go-dnsmasq && \
     setcap CAP_NET_BIND_SERVICE=+eip /bin/go-dnsmasq
 
-COPY --chmod=0755 root / 
-COPY --chmod=0777 root /app
-RUN chmod +x /usr/bin/startup.sh
+# Modified to run on OpenShift
+#COPY --chmod=0755 root / 
+COPY --chmod=0755 app /app
+RUN chmod +x /app/usr/bin/startup.sh
+
 
 #ENTRYPOINT ["/init"]
 #CMD []
@@ -67,19 +69,19 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 
 # Set HOME in non /root folder
-ENV HOME /home
+ENV HOME /home/svn
 
 # Expose ports for http and custom protocol access
 EXPOSE 80 443 3690
 
 # Example of changing ownership using chown (as root)
-#RUN adduser -H svn
-#RUN chown -R svn:svn /app
+RUN adduser -H svn
+RUN chown -R svn:svn /app
 
 # Switch to a non-root user (security best practice)
-#USER svn
+USER svn
 
-ENTRYPOINT ["/usr/bin/startup.sh"]
+ENTRYPOINT ["/app/usr/bin/startup.sh"]
 
 
 # Set the default command (e.g., to keep the container running)
