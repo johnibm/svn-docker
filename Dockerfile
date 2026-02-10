@@ -103,7 +103,7 @@ RUN chmod -R 0777 /etc/apache2 &&\
 	chmod -R 0777 /var/www &&\
 	chmod -R 0777 /var/log/apache2 &&\
 	chown -R svnuser:svngroup /run/apache2
-	
+
 
 
 # Set HOME in non /root folder
@@ -115,7 +115,7 @@ USER svnuser
 # Expose ports for http and custom protocol access
 EXPOSE 8080 8443 3690
 
-ENTRYPOINT ["/app/usr/bin/startup.sh"]
+ENTRYPOINT ["./usr/bin/startup.sh"]
 
 # Set the default command (e.g., to keep the container running)
 CMD ["sleep", "infinity"] 
