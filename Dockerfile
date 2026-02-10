@@ -94,7 +94,7 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 
 # Update Apache config file
-ADD app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
+ADD /app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
 
 # Fix permissions issue
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
