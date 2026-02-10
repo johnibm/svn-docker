@@ -32,7 +32,7 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
 # Create a non-root user and group
 # OpenShift usually runs containers with an arbitrary UID,
 # but providing a specific non-root user aids compatibility 
-RUN addgroup -S svngroup -g 1001 && adduser -S svnuser -G svngroup -u 1001
+RUN addgroup -S svngroup -g 3001 && adduser -S svnuser -G svngroup -u 1001
 
 
 # 2. Set working directory
@@ -94,7 +94,7 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 # Fix permissions issue
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
-RUN chmod -R 0755 /etc/apache2 &&\
+RUN chmod -R 0777 /etc/apache2 &&\
     chown -R svnuser:svngroup /etc/apache2
 
 

@@ -18,7 +18,7 @@ spec:
     spec:
       securityContext:
         runAsUser: 1001      # The user ID the container entrypoint will run as
-        runAsGroup: 3001      # The primary group ID for the container process
+        runAsGroup: 1001      # The primary group ID for the container process
         fsGroup: 2000         # The group ID for ownership of mounted volumes
       allowPrivilegeEscalation: false
       containers:
