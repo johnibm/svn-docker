@@ -86,7 +86,7 @@ RUN chown -R svnuser:svnuser /app
 WORKDIR /app
 
 # Switch to a non-root user (security best practice)
-USER 1000
+USER svnuser
 
 ENTRYPOINT ["/app/usr/bin/startup.sh"]
 
