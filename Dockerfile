@@ -87,7 +87,7 @@ ADD apache/ /etc/services.d/apache/
 ADD subversion/ /etc/services.d/subversion/
 
 # Add subversion passwd
-COPY --chown=svnuser:svngroup subversion/passwd /etc/subversion/passwd
+COPY --chown=svnuser:svngroup subversion/pasdswd /etc/subversion/passwd
 
 # Add SVNAuth file
 ADD subversion-access-control /etc/subversion/subversion-access-control
