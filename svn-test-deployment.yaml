@@ -31,7 +31,46 @@ spec:
                 /app/usr/bin/startup.sh &&\
                 sleep 30 &&\
                 echo "Startup Script finished. Pod will now stay alive." &&\
-                sleep infinity']
+                tail -f /dev/null']
           imagePullPolicy: Always
 EOF
 
+
+
+cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: svn-test-http-svc
+  namespace: demo-svn
+  labels:
+    app: svn-test
+spec:
+  type: ClusterIP
+  selector:
+    app: svn-test
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+EOF
+
+
+
+cat <<EOF | oc apply -f -
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: svn-test
+  namespace: demo-svn
+spec:
+  to:
+    kind: Service
+    name: svn-test-http
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge   # change to 'passthrough' or 'reencrypt' for TLS needs
+EOF
