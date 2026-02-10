@@ -20,7 +20,8 @@ RUN apk add --update --no-cache bind-tools curl libcap && \
     setcap CAP_NET_BIND_SERVICE=+eip /bin/go-dnsmasq
 
 COPY --chmod=0755 root / 
-COPY --chmod=0777 root /app 
+COPY --chmod=0777 root /app1
+RUN chmod +x /usr/bin/startup.sh
 
 #ENTRYPOINT ["/init"]
 #CMD []
