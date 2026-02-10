@@ -1,0 +1,18 @@
+cat <<EOF | oc apply -f -
+kind: Project
+apiVersion: project.openshift.io/v1
+metadata:
+  name: demo-svn  
+  annotations:
+    openshift.io/description: ''
+    openshift.io/display-name: ''
+    openshift.io/requester: 'kube:admin'
+    #openshift.io/sa.scc.mcs: 's0:c33,c32'
+    #openshift.io/sa.scc.supplemental-groups: 1001120000/10000
+    #openshift.io/sa.scc.uid-range: 1001120000/10000
+    openshift.io/sa.scc.mcs: <>
+    openshift.io/sa.scc.supplemental-groups: <>
+    openshift.io/sa.scc.uid-range: <>
+EOF
+
+  
