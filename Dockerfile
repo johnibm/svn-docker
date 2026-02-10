@@ -93,7 +93,8 @@ RUN chmod a+w /etc/subversion/* && chmod a+w /home/svn
 # Add WebDav configuration
 ADD dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
 # Fix permissions issue
-RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
+#RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
+RUN chmod -R 0755 /etc/apache2
 
 # Set HOME in non /root folder
 ENV HOME /home/svnuser
