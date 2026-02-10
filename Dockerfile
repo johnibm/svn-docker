@@ -74,7 +74,7 @@ RUN apk add --no-cache apache2 apache2-utils apache2-webdav mod_dav_svn &&\
 	rm stable-1.6.2.zip &&\
 	mv /opt/iF.SVNAdmin-stable-1.6.2 /opt/svnadmin &&\
 	ln -s /opt/svnadmin /var/www/localhost/htdocs/svnadmin &&\
-	chmod -R 777 /opt/svnadmin/data
+	chmod -R 777 /opt/svnadmin/data 
 
 # Solve a security issue (https://alpinelinux.org/posts/Docker-image-vulnerability-CVE-2019-5021.html)	
 RUN sed -i -e 's/^root::/root:!:/' /etc/shadow
@@ -99,7 +99,8 @@ ADD /app/etc/apache2/httpd.conf /etc/apache2/httpd.conf
 # Fix permissions issue
 #RUN chmod 644 /etc/apache2/conf.d/dav_svn.conf
 RUN chmod -R 0777 /etc/apache2 &&\
-    chown -R svnuser:svngroup /etc/apache2
+    chown -R svnuser:svngroup /etc/apache2 &&\
+	chmod -R 0777 /var/logs
 
 
 # Set HOME in non /root folder
